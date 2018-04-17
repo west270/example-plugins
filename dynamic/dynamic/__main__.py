@@ -26,6 +26,11 @@ class DynamicClient(object):
         None: []
     }
 
+    INSTANCE_CHOICES_DICTIONARY = {
+        'd1': ['100', '101', '111'],
+        'd2': ['200', '202', '222'],
+    }
+
     # Make the 'null' value the union of all values
     for value in STATIC_CHOICES_DICTIONARY.values():
         STATIC_CHOICES_DICTIONARY[None] = STATIC_CHOICES_DICTIONARY[None] + value
@@ -50,6 +55,11 @@ class DynamicClient(object):
     @command(command_type='INFO', output_type="JSON")
     def get_choices_with_argument(self, key):
         return self.STATIC_CHOICES_DICTIONARY[key]
+
+    @parameter(key='key', type='String')
+    @command(command_type='INFO', output_type='JSON')
+    def get_choices_with_instance_argument(self, key):
+        return self.INSTANCE_CHOICES_DICTIONARY[key]
 
     @parameter(key="message", type="String", description="Say what we want",
                optional=False, choices=STATIC_CHOICES)
@@ -122,6 +132,12 @@ class DynamicClient(object):
                choices={'type': 'static', 'value': STATIC_CHOICES_DICTIONARY,
                         'key_reference': '${dict_key}'})
     def say_specific_dictionary_with_key_reference(self, message, **_):
+        return message
+
+    @parameter(key="message", type="String", description="I depend on the instance",
+               nullable=True, choices={'type': 'static', 'value': INSTANCE_CHOICES_DICTIONARY,
+                                       'key_reference': '${instance_name}'})
+    def say_specific_dictionary_with_instance_name_key(self, message):
         return message
 
 
