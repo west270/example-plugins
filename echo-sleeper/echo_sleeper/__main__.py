@@ -2,16 +2,18 @@ from __future__ import absolute_import
 
 import sys
 
-from brewtils import load_config
-from brewtils.plugin import PluginBase
+from brewtils import RemotePlugin, get_bg_connection_parameters
 from .client import EchoSleeperClient
 
 __version__ = "1.0.0.dev0"
 
 
 def main():
-    plugin = PluginBase(EchoSleeperClient(), name='echo-sleeper', version=__version__,
-                        **load_config())
+    connection_params = get_bg_connection_parameters(sys.argv[1:])
+
+    plugin = RemotePlugin(EchoSleeperClient(connection_params),
+                          name='echo-sleeper', version=__version__,
+                          **connection_params)
     plugin.run()
 
 

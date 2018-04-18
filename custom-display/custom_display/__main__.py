@@ -1,8 +1,7 @@
 import sys
 
-from brewtils import load_config
-from brewtils.plugin import PluginBase
-from brewtils.decorators import command, system, parameter
+from brewtils import (command, system, parameter, RemotePlugin, \
+                      get_bg_connection_parameters)
 
 __version__ = "1.0.0.dev0"
 
@@ -57,8 +56,8 @@ class CustomDisplayClient(object):
 
 
 def main():
-    plugin = PluginBase(CustomDisplayClient(), name='custom-display', version=__version__,
-                        **load_config())
+    plugin = RemotePlugin(CustomDisplayClient(), name='custom-display', version=__version__,
+                          **get_bg_connection_parameters(sys.argv[1:]))
     plugin.run()
 
 

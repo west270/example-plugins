@@ -1,9 +1,8 @@
 import os
 from concurrent.futures import wait
 
-from brewtils import get_bg_connection_parameters
-from brewtils.decorators import system, parameter
-from brewtils.rest.system_client import SystemClient
+from brewtils import (parameter, system, SystemClient, \
+                      get_bg_connection_parameters)
 
 DEFAULT_MESSAGE = "Happy World!"
 
@@ -12,9 +11,7 @@ DEFAULT_MESSAGE = "Happy World!"
 class EchoSleeperClient:
     """A client that delegates to the Echo and Sleeper plugins"""
 
-    def __init__(self):
-        params = get_bg_connection_parameters()
-
+    def __init__(self, params):
         self.echo_client = SystemClient(system_name='echo', **params)
         self.sleeper_client = SystemClient(system_name='sleeper', **params)
         self.multi_sleeper_client = SystemClient(system_name='multi-sleeper', **params)

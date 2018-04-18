@@ -14,7 +14,7 @@ def find_version(version_file):
 
 
 setup(
-    name='sleeper',
+    name='concurrent-sleeper',
     version=find_version('concurrent_sleeper/__main__.py'),
     description='A really lazy plugin.',
     url='https://beer-garden.io',
