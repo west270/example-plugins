@@ -1,0 +1,11 @@
+
+# All hidden things in the root
+.*
+
+# Compiled things
+**/*.pyc
+**/__pycache__
+
+# Other stuff
+Dockerfile
+Makefile
