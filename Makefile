@@ -30,5 +30,8 @@ clean-pyc: ## remove Python file artifacts
 dist: clean ## builds docker image
 	docker build -t bgio/example-plugins .
 
+login: ## login to hub.docker.com (used by TravisCI)
+	echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
+
 release: dist ## publish to hub.docker.com
 	docker push bgio/example-plugins
