@@ -1,6 +1,6 @@
 import sys
 
-from brewtils import (command, system, parameter, RemotePlugin, \
+from brewtils import (command, system, parameter, RemotePlugin,
                       get_bg_connection_parameters)
 
 __version__ = "1.0.0.dev0"

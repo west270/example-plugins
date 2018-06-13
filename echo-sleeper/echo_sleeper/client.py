@@ -1,8 +1,6 @@
-import os
 from concurrent.futures import wait
 
-from brewtils import (parameter, system, SystemClient, \
-                      get_bg_connection_parameters)
+from brewtils import parameter, system, SystemClient
 
 DEFAULT_MESSAGE = "Happy World!"
 

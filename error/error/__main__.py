@@ -1,7 +1,7 @@
 import json
 import sys
 
-from brewtils import (command, system, RemotePlugin, \
+from brewtils import (command, system, RemotePlugin,
                       get_bg_connection_parameters)
 
 __version__ = "1.0.0.dev0"
@@ -52,6 +52,12 @@ class ErrorClient:
     @command(output_type="JSON")
     def error_string_output_type_json(self):
         """Error where the message is a string an the output type is JSON."""
+        raise ValueError("This is a string")
+
+    @command(output_type="JSON")
+    def error_json_output_type_json(self):
+        """Error where the message is JSON an the output type is JSON."""
+        raise ValueError(json.dumps({"foo": "bar"}))
 
 
 def main():

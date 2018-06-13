@@ -1,7 +1,7 @@
 import sys
 import time
 
-from brewtils import (parameter, system, RemotePlugin, \
+from brewtils import (parameter, system, RemotePlugin,
                       get_bg_connection_parameters)
 
 __version__ = "1.0.0.dev0"
