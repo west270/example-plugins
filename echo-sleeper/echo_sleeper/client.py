@@ -12,8 +12,10 @@ class EchoSleeperClient:
     def __init__(self, params):
         self.echo_client = SystemClient(system_name='echo', **params)
         self.sleeper_client = SystemClient(system_name='sleeper', **params)
-        self.multi_sleeper_client = SystemClient(system_name='multi-sleeper', **params)
         self.error_client = SystemClient(system_name='error', **params)
+        self.concurrent_sleeper_client = SystemClient(system_name='concurrent-sleeper',
+                                                      blocking=False,
+                                                      **params)
 
     @parameter(key="message", description="The message", optional=True, type="String",
                default=DEFAULT_MESSAGE)
@@ -93,11 +95,13 @@ class EchoSleeperClient:
     @parameter(key="number", description="Number of times to sleep", optional=True, type="Integer",
                default=1)
     def super_sleeper_concurrent(self, message=DEFAULT_MESSAGE, loud=False, amount=10, number=1):
-        """Echos using Echo and sleeps using Multi-Sleeper"""
+        """Echos using Echo and sleeps using non-blocking Sleeper sleep"""
 
         # System client with blocking=False will return Futures
-        sleeps = [self.multi_sleeper_client.sleep(amount=amount, _comment=number)
-                  for number in range(number)]
+        sleeps = []
+        for n in range(number):
+            sleeps.append(self.concurrent_sleeper_client.sleep(amount=amount,
+                                                               _comment=n))
 
         # Wait for all the futures to complete
         wait(sleeps)
