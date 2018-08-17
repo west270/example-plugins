@@ -2,7 +2,7 @@ from __future__ import absolute_import
 
 import sys
 
-from brewtils import RemotePlugin, get_bg_connection_parameters
+from brewtils import get_connection_info, Plugin
 from .client import ComplexClient
 from .errors import StartupError
 
@@ -14,11 +14,14 @@ def main():
         raise StartupError("%d arguments provided (3 required:'instance', "
                            "'host' and 'port')" % (len(sys.argv)-1))
 
-    plugin = RemotePlugin(ComplexClient(sys.argv[2], sys.argv[3]),
-                          name='complex', version=__version__, max_instances=2,
-                          instance_name=sys.argv[1],
-                          **get_bg_connection_parameters(sys.argv[4:]))
-    plugin.run()
+    Plugin(
+        ComplexClient(sys.argv[2], sys.argv[3]),
+        name='complex',
+        version=__version__,
+        instance_name=sys.argv[1],
+        max_instances=2,
+        **get_connection_info(sys.argv[4:])
+    ).run()
 
 
 if __name__ == '__main__':

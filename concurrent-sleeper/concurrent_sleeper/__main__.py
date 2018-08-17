@@ -1,8 +1,7 @@
 import sys
 import time
 
-from brewtils import (parameter, system, RemotePlugin,
-                      get_bg_connection_parameters)
+from brewtils import get_connection_info, parameter, system, Plugin
 
 __version__ = "1.0.0.dev0"
 
@@ -18,9 +17,13 @@ class SleeperClient:
 
 
 def main():
-    plugin = RemotePlugin(SleeperClient(), name='concurrent-sleeper', version=__version__,
-                          max_concurrent=5, **get_bg_connection_parameters(sys.argv[1:]))
-    plugin.run()
+    Plugin(
+        SleeperClient(),
+        name='concurrent-sleeper',
+        version=__version__,
+        max_concurrent=5,
+        **get_connection_info(sys.argv[1:])
+    ).run()
 
 
 if __name__ == '__main__':

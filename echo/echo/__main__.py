@@ -1,7 +1,6 @@
 import sys
 
-from brewtils import (command, parameter, system, RemotePlugin,
-                      get_bg_connection_parameters)
+from brewtils import command, get_connection_info, parameter, system, Plugin
 
 __version__ = '1.0.0.dev0'
 
@@ -10,26 +9,41 @@ __version__ = '1.0.0.dev0'
 class EchoClient(object):
     """Client that echos things"""
 
-    @parameter(key="message", description="The Message to be Echoed", optional=True, type="String", default="Hello, World!")
-    @parameter(key="loud", description="Determines if Exclamation marks are added", optional=True, type="Boolean", default=False)
+    @parameter(
+        key="message",
+        type="String",
+        description="The Message to be Echoed",
+        optional=True,
+        default="Hello, World!")
+    @parameter(
+        key="loud",
+        type="Boolean",
+        description="Determines if Exclamation marks are added",
+        optional=True,
+        default=False)
     def say(self, message="Hello, World!", loud=False):
-        if loud:
-            message += "!!!!!!!!!"
-
-        return message
+        """Echos!"""
+        return message + "!!!!!!!!!" if loud else message
 
     @command(output_type='JSON')
-    @parameter(key="message", description="The Message to be Echoed", optional=True, type="String",
-                  default='{"str": "value", "nums": [1, 2, 17], "obj": {"nested": "awesome"}}')
+    @parameter(
+        key="message",
+        type="String",
+        description="The Message to be Echoed",
+        optional=True,
+        default='{"str": "value", "nums": [1, 17], "obj": {"nested": "sweet"}}')
     def say_json(self, message="Hello, World!"):
         """Echos with JSON output_type"""
         return message
 
 
 def main():
-    plugin = RemotePlugin(EchoClient(), name='echo', version=__version__,
-                          **get_bg_connection_parameters(sys.argv[1:]))
-    plugin.run()
+    Plugin(
+        EchoClient(),
+        name='echo',
+        version=__version__,
+        **get_connection_info(sys.argv[1:])
+    ).run()
 
 
 if __name__ == '__main__':

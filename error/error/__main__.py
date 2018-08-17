@@ -1,8 +1,7 @@
 import json
 import sys
 
-from brewtils import (command, system, RemotePlugin,
-                      get_bg_connection_parameters)
+from brewtils import command, get_connection_info, system, Plugin
 
 __version__ = "1.0.0.dev0"
 
@@ -61,9 +60,12 @@ class ErrorClient:
 
 
 def main():
-    plugin = RemotePlugin(ErrorClient(), name='error', version=__version__,
-                          **get_bg_connection_parameters(sys.argv[1:]))
-    plugin.run()
+    Plugin(
+        ErrorClient(),
+        name='error',
+        version=__version__,
+        **get_connection_info(sys.argv[1:])
+    ).run()
 
 
 if __name__ == '__main__':

@@ -1,7 +1,6 @@
 import sys
 
-from brewtils import (command, system, parameter, RemotePlugin,
-                      get_bg_connection_parameters)
+from brewtils import command, get_connection_info, parameter, system, Plugin
 
 __version__ = "1.0.0.dev0"
 
@@ -141,9 +140,12 @@ class DynamicClient(object):
 
 
 def main():
-    plugin = RemotePlugin(DynamicClient(), name='dynamic', version=__version__,
-                          **get_bg_connection_parameters(sys.argv[1:]))
-    plugin.run()
+    Plugin(
+        DynamicClient(),
+        name='dynamic',
+        version=__version__,
+        **get_connection_info(sys.argv[1:])
+    ).run()
 
 
 if __name__ == '__main__':
