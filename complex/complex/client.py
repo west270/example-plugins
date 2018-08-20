@@ -17,6 +17,10 @@ class ComplexClient:
         self.host = host
         self.port = port
 
+    @command
+    def echo_host_port(self):
+        return [self.host, self.port]
+
     @parameter(key="b", type="Boolean", description="Just want to test Booleans", multi=False,
                display_name="A Boolean", optional=False, default=None, choices=None, model=None,
                nullable=False)
