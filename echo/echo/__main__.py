@@ -2,7 +2,7 @@ import sys
 
 from brewtils import command, get_connection_info, parameter, system, Plugin
 
-__version__ = '1.0.0.dev0'
+__version__ = "1.0.0.dev0"
 
 
 @system
@@ -14,24 +14,27 @@ class EchoClient(object):
         type="String",
         description="The Message to be Echoed",
         optional=True,
-        default="Hello, World!")
+        default="Hello, World!",
+    )
     @parameter(
         key="loud",
         type="Boolean",
         description="Determines if Exclamation marks are added",
         optional=True,
-        default=False)
+        default=False,
+    )
     def say(self, message="Hello, World!", loud=False):
         """Echos!"""
         return message + "!!!!!!!!!" if loud else message
 
-    @command(output_type='JSON')
+    @command(output_type="JSON")
     @parameter(
         key="message",
         type="String",
         description="The Message to be Echoed",
         optional=True,
-        default='{"str": "value", "nums": [1, 17], "obj": {"nested": "sweet"}}')
+        default='{"str": "value", "nums": [1, 17], "obj": {"nested": "sweet"}}',
+    )
     def say_json(self, message="Hello, World!"):
         """Echos with JSON output_type"""
         return message
@@ -40,11 +43,11 @@ class EchoClient(object):
 def main():
     Plugin(
         EchoClient(),
-        name='echo',
+        name="echo",
         version=__version__,
         **get_connection_info(sys.argv[1:])
     ).run()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

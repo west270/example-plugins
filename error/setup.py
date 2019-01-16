@@ -14,17 +14,15 @@ def find_version(version_file):
 
 
 setup(
-    name='error',
-    version=find_version('error/__main__.py'),
-    description='All commands end in errors. There is no hope.',
-    url='https://beer-garden.io',
-    author='The Beergarden Team',
-    author_email=' ',
-    license='MIT',
-    packages=['error'],
-    install_requires=[
-        'brewtils',
-    ],
+    name="error",
+    version=find_version("error/__main__.py"),
+    description="All commands end in errors. There is no hope.",
+    url="https://beer-garden.io",
+    author="The Beergarden Team",
+    author_email=" ",
+    license="MIT",
+    packages=["error"],
+    install_requires=["brewtils"],
     classifiers=[
         "Intended Audience :: Developers",
         "License :: OSI Approved :: MIT License",
@@ -33,6 +31,5 @@ setup(
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.6",
-    ]
+    ],
 )
-

@@ -13,11 +13,11 @@ def main():
 
     Plugin(
         EchoSleeperClient(connection_params),
-        name='echo-sleeper',
+        name="echo-sleeper",
         version=__version__,
         **connection_params
     ).run()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
