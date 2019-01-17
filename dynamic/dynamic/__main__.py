@@ -32,6 +32,7 @@ class DynamicClient(object):
         "d2": ["200", "202", "222"],
     }
 
+    CHOICES_FILE = os.getenv("CHOICES_FILE", "http://example.com/api/choices.json")
     CHOICES_URL = os.getenv("CHOICES_URL", "http://example.com/api")
 
     @command
@@ -115,7 +116,7 @@ class DynamicClient(object):
         type="String",
         description="Say what we want",
         optional=False,
-        choices={"type": "url", "value": CHOICES_URL},
+        choices={"type": "url", "value": CHOICES_FILE},
     )
     def say_specific_from_url(self, message):
         return message
@@ -126,7 +127,7 @@ class DynamicClient(object):
         description="Say what we want",
         optional=False,
         nullable=True,
-        choices={"type": "url", "value": CHOICES_URL},
+        choices={"type": "url", "value": CHOICES_FILE},
     )
     def say_specific_from_url_nullable(self, message):
         return message
