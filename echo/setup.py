@@ -14,17 +14,15 @@ def find_version(version_file):
 
 
 setup(
-    name='echo',
-    version=find_version('echo/__main__.py'),
-    description='Remote plugin that echos input strings',
-    url='https://beer-garden.io',
-    author='The Beergarden Team',
-    author_email=' ',
-    license='MIT',
-    packages=['echo'],
-    install_requires=[
-        'brewtils',
-    ],
+    name="echo",
+    version=find_version("echo/__main__.py"),
+    description="Remote plugin that echos input strings",
+    url="https://beer-garden.io",
+    author="The Beergarden Team",
+    author_email=" ",
+    license="MIT",
+    packages=["echo"],
+    install_requires=["brewtils"],
     classifiers=[
         "Intended Audience :: Developers",
         "License :: OSI Approved :: MIT License",
@@ -33,6 +31,5 @@ setup(
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.6",
-    ]
+    ],
 )
-

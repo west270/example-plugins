@@ -14,17 +14,15 @@ def find_version(version_file):
 
 
 setup(
-    name='concurrent-sleeper',
-    version=find_version('concurrent_sleeper/__main__.py'),
-    description='A really lazy plugin.',
-    url='https://beer-garden.io',
-    author='The Beergarden Team',
-    author_email=' ',
-    license='MIT',
-    packages=['concurrent_sleeper'],
-    install_requires=[
-        'brewtils',
-    ],
+    name="concurrent-sleeper",
+    version=find_version("concurrent_sleeper/__main__.py"),
+    description="A really lazy plugin.",
+    url="https://beer-garden.io",
+    author="The Beergarden Team",
+    author_email=" ",
+    license="MIT",
+    packages=["concurrent_sleeper"],
+    install_requires=["brewtils"],
     classifiers=[
         "Intended Audience :: Developers",
         "License :: OSI Approved :: MIT License",
@@ -33,6 +31,5 @@ setup(
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.6",
-    ]
+    ],
 )
-

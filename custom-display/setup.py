@@ -14,18 +14,16 @@ def find_version(version_file):
 
 
 setup(
-    name='custom-display',
-    version=find_version('custom_display/__main__.py'),
-    description='Plugin that likes to play pretend.',
-    url='https://beer-garden.io',
-    author='The Beergarden Team',
-    author_email=' ',
-    license='MIT',
-    packages=['custom_display'],
+    name="custom-display",
+    version=find_version("custom_display/__main__.py"),
+    description="Plugin that likes to play pretend.",
+    url="https://beer-garden.io",
+    author="The Beergarden Team",
+    author_email=" ",
+    license="MIT",
+    packages=["custom_display"],
     include_package_data=True,
-    install_requires=[
-        'brewtils',
-    ],
+    install_requires=["brewtils"],
     classifiers=[
         "Intended Audience :: Developers",
         "License :: OSI Approved :: MIT License",
@@ -34,6 +32,5 @@ setup(
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.6",
-    ]
+    ],
 )
-

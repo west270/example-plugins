@@ -62,11 +62,11 @@ class ErrorClient:
 def main():
     Plugin(
         ErrorClient(),
-        name='error',
+        name="error",
         version=__version__,
         **get_connection_info(sys.argv[1:])
     ).run()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
