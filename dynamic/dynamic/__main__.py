@@ -189,7 +189,7 @@ class DynamicClient(object):
         return message
 
     @parameter(
-        key="index", type="String", choices=STATIC_CHOICES, default="a", is_kwarg=True
+        key="file", type="String", choices=STATIC_CHOICES, default="a", is_kwarg=True
     )
     @parameter(
         key="message",
@@ -200,10 +200,10 @@ class DynamicClient(object):
             "type": "url",
             "display": "select",
             "strict": True,
-            "value": CHOICES_URL,
+            "value": CHOICES_URL+"?file=${file}",
         },
     )
-    def say_specific_from_url_with_parameter(self, message):
+    def say_specific_from_url_with_parameter(self, message, **_):
         return message
 
     @parameter(
