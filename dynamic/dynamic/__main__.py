@@ -1,3 +1,4 @@
+import os
 import sys
 
 from brewtils import command, get_connection_info, parameter, system, Plugin
@@ -21,17 +22,18 @@ class DynamicClient(object):
         "a": ["r", "s", "t"],
         "b": ["u", "v", "w"],
         "c": ["x", "y", "z"],
-        None: [],
+        None: [],  # Want 'null' value to be the union of all values
     }
+    for value in STATIC_CHOICES_DICTIONARY.values():
+        STATIC_CHOICES_DICTIONARY[None] = STATIC_CHOICES_DICTIONARY[None] + value
 
     INSTANCE_CHOICES_DICTIONARY = {
         "d1": ["100", "101", "111"],
         "d2": ["200", "202", "222"],
     }
 
-    # Make the 'null' value the union of all values
-    for value in STATIC_CHOICES_DICTIONARY.values():
-        STATIC_CHOICES_DICTIONARY[None] = STATIC_CHOICES_DICTIONARY[None] + value
+    CHOICES_FILE = os.getenv("CHOICES_FILE", "http://example.com/api/choices.json")
+    CHOICES_URL = os.getenv("CHOICES_URL", "http://example.com/api")
 
     @command
     def _get_attribute(self, attribute):
@@ -114,7 +116,7 @@ class DynamicClient(object):
         type="String",
         description="Say what we want",
         optional=False,
-        choices={"type": "url", "value": "http://example.com/api"},
+        choices={"type": "url", "value": CHOICES_FILE},
     )
     def say_specific_from_url(self, message):
         return message
@@ -125,7 +127,7 @@ class DynamicClient(object):
         description="Say what we want",
         optional=False,
         nullable=True,
-        choices={"type": "url", "value": "http://example.com/api"},
+        choices={"type": "url", "value": CHOICES_FILE},
     )
     def say_specific_from_url_nullable(self, message):
         return message
@@ -188,7 +190,7 @@ class DynamicClient(object):
         return message
 
     @parameter(
-        key="index", type="String", choices=STATIC_CHOICES, default="a", is_kwarg=True
+        key="file", type="String", choices=STATIC_CHOICES, default="a", is_kwarg=True
     )
     @parameter(
         key="message",
@@ -199,10 +201,10 @@ class DynamicClient(object):
             "type": "url",
             "display": "select",
             "strict": True,
-            "value": "http://example.com/api",
+            "value": CHOICES_URL+"?file=${file}",
         },
     )
-    def say_specific_from_url_with_parameter(self, message):
+    def say_specific_from_url_with_parameter(self, message, **_):
         return message
 
     @parameter(
