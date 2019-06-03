@@ -857,3 +857,9 @@ class ComplexClient:
     )
     def weird_parameter_names(self, **kwargs):
         return json.dumps(kwargs)
+
+    @parameter(key="some_file", type="file", description="A file to echo.")
+    def echo_file(self, some_file):
+        with open(some_file, encoding="utf-8") as my_file:
+            message = [l.strip() for l in my_file]
+        return "\n".join(message)
