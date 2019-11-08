@@ -248,6 +248,7 @@ def main():
         DynamicClient(),
         name="dynamic",
         version=__version__,
+        max_instances=2,
         **get_connection_info(sys.argv[1:])
     ).run()
 
