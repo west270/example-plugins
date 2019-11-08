@@ -2,6 +2,7 @@ import os
 import sys
 
 from brewtils import command, get_connection_info, parameter, system, Plugin
+from brewtils.plugin import request_context
 
 __version__ = "1.0.0.dev0"
 
@@ -41,24 +42,29 @@ class DynamicClient(object):
 
     @command(command_type="INFO", output_type="JSON")
     def get_choices(self):
+        """Returns a basic list: ["a", "b", "c"]"""
         return self.STATIC_CHOICES
 
     @command(command_type="INFO", output_type="JSON")
     def get_choices_renamed(self):
+        """Returns a renamed list: [{"value": "a", "text": "A"}, ...]"""
         return self.STATIC_CHOICES_RENAMED
 
     @command
     def get_choices_dictionary(self):
+        """Returns a dictionary: {"a": ["r", "s", "t"], "b": ["u", "v", "w"], ...}"""
         return self.STATIC_CHOICES_DICTIONARY
 
     @parameter(key="key", type="String", choices=STATIC_CHOICES)
     @command(command_type="INFO", output_type="JSON")
     def get_choices_with_argument(self, key):
+        """Returns a list by using the 'key' param as the key to the choices dict"""
         return self.STATIC_CHOICES_DICTIONARY[key]
 
-    @parameter(key="key", type="String")
     @command(command_type="INFO", output_type="JSON")
-    def get_choices_with_instance_argument(self, key):
+    def get_choices_from_instance_name(self):
+        """Returns a list based on instance name (d1 or d2)"""
+        key = request_context.current_request.instance_name
         return self.INSTANCE_CHOICES_DICTIONARY[key]
 
     @parameter(
@@ -69,6 +75,7 @@ class DynamicClient(object):
         choices=STATIC_CHOICES,
     )
     def say_specific(self, message):
+        """Choices param is the static list: ["a", "b", "c"]"""
         return message
 
     @parameter(
@@ -79,6 +86,7 @@ class DynamicClient(object):
         choices={"value": STATIC_CHOICES_RENAMED, "display": "select"},
     )
     def say_specific_renamed(self, message):
+        """Choices param is the renamed list: [{"value": "a", "text": "A"}, ...]"""
         return message
 
     @parameter(
@@ -94,6 +102,7 @@ class DynamicClient(object):
         },
     )
     def say_specific_non_strict_typeahead(self, message):
+        """Non-strict typeahead display"""
         return message
 
     @parameter(
@@ -109,6 +118,7 @@ class DynamicClient(object):
         },
     )
     def say_specific_strict_typeahead(self, message):
+        """Strict typeahead display"""
         return message
 
     @parameter(
@@ -119,6 +129,7 @@ class DynamicClient(object):
         choices={"type": "url", "value": CHOICES_FILE},
     )
     def say_specific_from_url(self, message):
+        """Uses a URL pointing to a JSON file to populate choices"""
         return message
 
     @parameter(
@@ -130,6 +141,7 @@ class DynamicClient(object):
         choices={"type": "url", "value": CHOICES_FILE},
     )
     def say_specific_from_url_nullable(self, message):
+        """Uses a URL pointing to a JSON file to populate choices"""
         return message
 
     @parameter(
@@ -140,6 +152,7 @@ class DynamicClient(object):
         choices={"type": "command", "value": "get_choices"},
     )
     def say_specific_from_command(self, message):
+        """Uses the 'get_choices' command to populate choices"""
         return message
 
     @parameter(
@@ -158,6 +171,7 @@ class DynamicClient(object):
         },
     )
     def say_specific_from_command_fully_specified(self, message):
+        """Choices param is the fully-specified dictionary"""
         return message
 
     @parameter(
@@ -169,6 +183,7 @@ class DynamicClient(object):
         choices={"type": "command", "value": "get_choices"},
     )
     def say_specific_from_command_nullable(self, message):
+        """Uses the 'get_choices' command to populate choices"""
         return message
 
     @parameter(
@@ -187,6 +202,7 @@ class DynamicClient(object):
         },
     )
     def say_specific_with_choices_argument(self, message, **_):
+        """Calls 'get_choices_with_argument' with 'index' param to populate choices"""
         return message
 
     @parameter(
@@ -205,6 +221,7 @@ class DynamicClient(object):
         },
     )
     def say_specific_from_url_with_parameter(self, message, **_):
+        """Uses URL and query parameter to populate choices"""
         return message
 
     @parameter(
@@ -226,6 +243,7 @@ class DynamicClient(object):
         },
     )
     def say_specific_dictionary_with_key_reference(self, message, **_):
+        """Uses the dict_key param as the key_reference for the choices dictionary"""
         return message
 
     @parameter(
@@ -240,6 +258,7 @@ class DynamicClient(object):
         },
     )
     def say_specific_dictionary_with_instance_name_key(self, message):
+        """Uses the instance name as the key_reference for the choices dictionary"""
         return message
 
 
