@@ -61,6 +61,13 @@ class DynamicClient(object):
         """Returns a list by using the 'key' param as the key to the choices dict"""
         return self.STATIC_CHOICES_DICTIONARY[key]
 
+    @parameter(key="p1", type="String", choices=STATIC_CHOICES)
+    @parameter(key="p2", type="String", choices=STATIC_CHOICES)
+    @command(command_type="INFO", output_type="JSON")
+    def get_choices_with_arguments(self, p1, p2):
+        """Returns a list by using the 'key' param as the key to the choices dict"""
+        return list({p1+p2, p2+p1})
+
     @command(command_type="INFO", output_type="JSON")
     def get_choices_from_instance_name(self):
         """Returns a list based on instance name (d1 or d2)"""
@@ -203,6 +210,28 @@ class DynamicClient(object):
     )
     def say_specific_with_choices_argument(self, message, **_):
         """Calls 'get_choices_with_argument' with 'index' param to populate choices"""
+        return message
+
+    @parameter(
+        key="p1", type="String", choices=STATIC_CHOICES, default="a", is_kwarg=True
+    )
+    @parameter(
+        key="p2", type="String", choices=STATIC_CHOICES, default="a", is_kwarg=True
+    )
+    @parameter(
+        key="message",
+        type="String",
+        description="Say what we want",
+        optional=False,
+        choices={
+            "type": "command",
+            "display": "select",
+            "strict": True,
+            "value": "get_choices_with_arguments(p1=${p1}, p2=${p2})",
+        },
+    )
+    def say_specific_with_choices_arguments(self, message, **_):
+        """Calls 'get_choices_with_arguments' with 'p1' and 'p2' params"""
         return message
 
     @parameter(
