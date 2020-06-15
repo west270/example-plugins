@@ -3,6 +3,7 @@ from __future__ import absolute_import
 import json
 import logging
 import os
+import sys
 
 from brewtils.decorators import command, system, parameter
 from .model import MyModel, MyNestedModel, MyListModel, MyModelWithDefaults
@@ -857,3 +858,26 @@ class ComplexClient:
     )
     def weird_parameter_names(self, **kwargs):
         return json.dumps(kwargs)
+
+    @command(output_type="JSON")
+    @parameter(
+        key="mb",
+        type="Integer",
+        description="MB size to return",
+        optional=True,
+        default=16,
+    )
+    def large_output(self, mb=16):
+
+        N = 10000
+        json_obj = {"long_array": []}
+        sub_obj = {"project": ["The", "Beer", "Garden"],
+                   "ran_by": "You",
+                   "worth": "unmeasurable",
+                   "status": "awesome"}
+
+        while sys.getsizeof(json_obj) < (1000000 * mb):
+            for x in range(0, N):
+                json_obj['long_array'].append(sub_obj)
+
+        return json_obj
