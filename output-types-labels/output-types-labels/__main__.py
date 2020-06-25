@@ -96,7 +96,7 @@ class OutputTypesLabelsClient:
     """ Weird Edge Case """
 
     @command(output_types=['JSON', 'JSON'], output_labels=['Result1', 'Result2'],
-             description='Not sure how we should handle this')
+             description='NExpected one results of JSON type with label, second output should be blank')
     def multi_output_labels_and_types_single_dict(self):
         return {'output': 'result', 'output2': 'result2'}
 
