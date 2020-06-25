@@ -28,7 +28,7 @@ class OutputTypesLabelsClient:
     def single_output_labels(self):
         return {'output': 'result'}
 
-    @command(output_type="JSON", output_labels='Results',
+    @command(output_type="JSON", output_labels=['Results'],
              description='Expected single result of Labeled Results of type JSON')
     def single_output_label_and_type(self):
         return {'output': 'result'}
