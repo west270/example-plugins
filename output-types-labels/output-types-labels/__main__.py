@@ -93,6 +93,13 @@ class OutputTypesLabelsClient:
     def nothing_defined_list(self):
         return {'output': 'result'}, {'output': 'result'}
 
+    """ Weird Edge Case """
+
+    @command(output_types=['JSON', 'JSON'], output_labels=['Result1', 'Result2'],
+             description='Expected two results of JSON type with labels')
+    def multi_output_labels_and_types_single_dict(self):
+        return {'output': 'result', 'output2': 'result2'}
+
 
 def main():
     connection_params = get_connection_info(sys.argv[1:])
