@@ -859,25 +859,17 @@ class ComplexClient:
     def weird_parameter_names(self, **kwargs):
         return json.dumps(kwargs)
 
-    @command(output_type="JSON")
+    @command
     @parameter(
         key="mb",
         type="Integer",
-        description="MB size to return",
-        optional=True,
-        default=16,
+        description="Size of generated output in MB",
+        optional=False,
     )
     def large_output(self, mb=16):
+        # since this is ASCII should be 1 byte per character
+        output = "".join(('a' for _ in range(mb * 1000000 - sys.getsizeof(""))))
 
-        N = 10000
-        json_obj = {"long_array": []}
-        sub_obj = {"project": ["The", "Beer", "Garden"],
-                   "ran_by": "You",
-                   "worth": "unmeasurable",
-                   "status": "awesome"}
+        self.logger.info(f"Size: {sys.getsizeof(output)}")
 
-        while sys.getsizeof(json_obj) < (1000000 * mb):
-            for x in range(0, N):
-                json_obj['long_array'].append(sub_obj)
-
-        return json_obj
+        return output
