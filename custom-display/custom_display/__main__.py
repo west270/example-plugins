@@ -7,6 +7,7 @@ __version__ = "1.0.0.dev0"
 
 @system
 class CustomDisplayClient(object):
+
     @command(form=[{"key": "parameters.message", "readonly": True}])
     @parameter(key="message", type="String", optional=False, nullable=False)
     def echo_message_custom_form_as_list(self, message="Can't change me! Hahaha!"):
@@ -45,10 +46,6 @@ class CustomDisplayClient(object):
         """schema={"message":{'type': 'string','readonly': True,'default':'Default in schema!'}}"""
         return message
 
-    @command(template="./resources/minimalist.html")
-    def echo_minimalist(self, message):
-        return message
-
     @parameter(
         key="message",
         type="String",
@@ -80,6 +77,18 @@ class CustomDisplayClient(object):
     def echo_message_dictionary(self, message):
         return message
 
+    @command(template="./resources/minimalist.html")
+    def echo_minimalist(self, message):
+        return message
+
+    @command(template="./resources/d3.html")
+    def echo_minimalist_d3(self, message):
+        return message
+
+    @command(command_type="INFO", output_type="JS")
+    def _d3(self):
+        with open("custom_display/resources/d3.min.js") as f:
+            return f.read()
 
 def main():
     Plugin(

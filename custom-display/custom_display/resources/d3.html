@@ -1,0 +1,66 @@
+
+<h1>Echo Minimalist (Now with D3!)</h1>
+
+<p>
+    If ALLOW_UNSANITIZED_TEMPLATES is set to true in the application config
+    <b>(DON'T DO THIS UNLESS YOU KNOW WHAT YOU'RE DOING. YOU'VE BEEN WARNED.)</b>
+    there'll be a form after this. Otherwise you'll just have to use your imagination.
+</p>
+
+<div>
+    <form action="/api/v1/requests" method="POST">
+        Namespace:
+        <input type="text" name="namespace" value="default" readonly>
+
+        <br>
+        System Name:
+        <input type="text" name="system" value="custom-display" readonly>
+
+        <br>
+        System Version:
+        <input type="text" name="system_version" value="1.0.0.dev0" readonly>
+
+        <br>
+        Command Name:
+        <input type="text" name="command" value="echo_minimalist" readonly>
+
+        <br>
+        Instance Name:
+        <input type="text" name="instance_name" value="default" readonly>
+
+        <br>
+        <br>
+        <fieldset>
+            <legend>Parameters</legend>
+            Message:
+            <input type="text" name="parameters.message">
+        </fieldset>
+
+        <br>
+        <input type="submit" value="Make Request">
+    </form>
+</div>
+
+<script>
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", '/api/v1/requests?blocking=true', true);
+
+    xhr.onreadystatechange = function() {
+        if (this.readyState === XMLHttpRequest.DONE && this.status === 201) {
+            let request = JSON.parse(this.response);
+
+            let script = document.createElement('script');
+            script.onload = function () {
+                d3.selectAll("input").style("color", "blue");
+            };
+            script.src = "/api/v1/requests/output/" + request.id;
+
+            document.head.appendChild(script);
+        }
+    }
+
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.send(
+        "namespace=default&system=custom-display&system_version=1.0.0.dev0&command=_d3&instance_name=default"
+    );
+</script>
