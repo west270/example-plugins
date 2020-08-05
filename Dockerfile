@@ -6,4 +6,5 @@ ENTRYPOINT ["python", "-m"]
 COPY . .
 
 # Install all the plugins
-RUN find . -maxdepth 1 -type d ! -name ".*" | xargs pip install --no-cache-dir
+RUN pip install https://github.com/beer-garden/brewtils/archive/v3.zip \
+  && find . -maxdepth 1 -type d ! -name ".*" | xargs pip install --no-cache-dir
