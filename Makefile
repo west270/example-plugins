@@ -1,4 +1,6 @@
-# Makefile for bartender
+# Makefile for the example plugins
+
+TAG    ?= latest
 
 .PHONY: clean clean-pyc help test
 .DEFAULT_GOAL := help
@@ -28,10 +30,10 @@ clean-pyc: ## remove Python file artifacts
 	find . -name '__pycache__' -exec rm -fr {} +
 
 dist: clean ## builds docker image
-	docker build -t bgio/example-plugins .
+	docker build -t bgio/example-plugins:$(TAG) .
 
 login: ## login to hub.docker.com (used by TravisCI)
 	echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
 
 release: dist ## publish to hub.docker.com
-	docker push bgio/example-plugins
+	docker push bgio/example-plugins:$(TAG)
