@@ -66,7 +66,7 @@ class DynamicClient(object):
     @command(command_type="INFO", output_type="JSON")
     def get_choices_with_arguments(self, p1, p2):
         """Returns a list by using the 'key' param as the key to the choices dict"""
-        return list({p1+p2, p2+p1})
+        return list({p1 + p2, p2 + p1})
 
     @command(command_type="INFO", output_type="JSON")
     def get_choices_from_instance_name(self):
@@ -246,7 +246,7 @@ class DynamicClient(object):
             "type": "url",
             "display": "select",
             "strict": True,
-            "value": CHOICES_URL+"?file=${file}",
+            "value": CHOICES_URL + "?file=${file}",
         },
     )
     def say_specific_from_url_with_parameter(self, message, **_):

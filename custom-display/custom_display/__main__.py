@@ -7,7 +7,6 @@ __version__ = "1.0.0.dev0"
 
 @system
 class CustomDisplayClient(object):
-
     @command(form=[{"key": "parameters.message", "readonly": True}])
     @parameter(key="message", type="String", optional=False, nullable=False)
     def echo_message_custom_form_as_list(self, message="Can't change me! Hahaha!"):
@@ -116,7 +115,7 @@ class CustomDisplayClient(object):
 
         from . import resources
 
-        return pkg_resources.read_text(resources, 'd3.min.js')
+        return pkg_resources.read_text(resources, "d3.min.js")
 
 
 def main():

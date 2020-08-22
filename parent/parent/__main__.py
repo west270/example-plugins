@@ -5,12 +5,15 @@ from brewtils import command, get_connection_info, system, Plugin, SystemClient
 
 __version__ = "1.0.0.dev0"
 
+
 @system
 class ParentClient:
     """A Client communicates with a child in a seperate namespace"""
 
     def __init__(self, params):
-        self.child_client = SystemClient(system_name="child", system_namespace="CHILD_NAMESPACE", **params)
+        self.child_client = SystemClient(
+            system_name="child", system_namespace="CHILD_NAMESPACE", **params
+        )
 
     @command()
     def who_am_i(self):

@@ -868,7 +868,7 @@ class ComplexClient:
     )
     def large_output(self, mb=16):
         # since this is ASCII should be 1 byte per character
-        output = "".join(('a' for _ in range(mb * 1000000 - sys.getsizeof(""))))
+        output = "".join(("a" for _ in range(mb * 1000000 - sys.getsizeof(""))))
 
         self.logger.info(f"Size: {sys.getsizeof(output)}")
 
