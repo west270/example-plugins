@@ -1,7 +1,6 @@
 import json
-import sys
 
-from brewtils import command, get_connection_info, system, Plugin
+from brewtils import command, system, Plugin
 
 __version__ = "1.0.0.dev0"
 
@@ -24,8 +23,7 @@ class ErrorClient:
     @command
     def json_string_error_message(self):
         """Error where the message is a normal string but in JSON format."""
-        message = {"foo": "bar"}
-        raise ValueError(json.dumps(message))
+        raise ValueError(json.dumps({"foo": "bar"}))
 
     @command
     def no_error_message(self):
@@ -45,8 +43,7 @@ class ErrorClient:
     @command
     def unknown_object_for_message(self):
         """Error where the message is an unknown object type."""
-        foo_message = FooMessage("This is my message.", "more stuff")
-        raise ValueError(foo_message)
+        raise ValueError(FooMessage("This is my message.", "more stuff"))
 
     @command(output_type="JSON")
     def error_string_output_type_json(self):
@@ -60,12 +57,13 @@ class ErrorClient:
 
 
 def main():
-    Plugin(
-        ErrorClient(),
+    plugin = Plugin(
         name="error",
         version=__version__,
-        **get_connection_info(sys.argv[1:])
-    ).run()
+        description="All commands end in errors. There is no hope.",
+    )
+    plugin.client = ErrorClient()
+    plugin.run()
 
 
 if __name__ == "__main__":

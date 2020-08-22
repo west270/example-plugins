@@ -9,12 +9,12 @@ DEFAULT_MESSAGE = "Happy World!"
 class EchoSleeperClient:
     """A client that delegates to the Echo and Sleeper plugins"""
 
-    def __init__(self, params):
-        self.echo_client = SystemClient(system_name="echo", **params)
-        self.sleeper_client = SystemClient(system_name="sleeper", **params)
-        self.error_client = SystemClient(system_name="error", **params)
+    def __init__(self):
+        self.echo_client = SystemClient(system_name="echo")
+        self.sleeper_client = SystemClient(system_name="sleeper")
+        self.error_client = SystemClient(system_name="error")
         self.concurrent_sleeper_client = SystemClient(
-            system_name="concurrent-sleeper", blocking=False, **params
+            system_name="concurrent-sleeper", blocking=False
         )
 
     @parameter(

@@ -1,8 +1,6 @@
-import sys
+from brewtils import command, parameter, system, Plugin
 
-from brewtils import command, get_connection_info, parameter, system, Plugin
-
-__version__ = "1.0.0.dev0"
+__version__ = "3.0.0.dev0"
 
 
 @system
@@ -45,7 +43,7 @@ class EchoClient(object):
         type="String",
         description="The Message to be Echoed",
         optional=True,
-        default='<h1>Hello, World</h1>',
+        default="<h1>Hello, World</h1>",
     )
     def say_html(self, message):
         """Echos with HTML output_type"""
@@ -53,12 +51,13 @@ class EchoClient(object):
 
 
 def main():
-    Plugin(
-        EchoClient(),
+    plugin = Plugin(
         name="echo",
         version=__version__,
-        **get_connection_info(sys.argv[1:])
-    ).run()
+        description="Annoying plugin that just repeats stuff",
+    )
+    plugin.client = EchoClient()
+    plugin.run()
 
 
 if __name__ == "__main__":

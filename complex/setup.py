@@ -16,7 +16,7 @@ def find_version(version_file):
 setup(
     name="complex",
     version=find_version("complex/__main__.py"),
-    description="Plugin that shows all the cool things beergarden can do",
+    description="Plugin that shows all the cool things Beergarden can do",
     url="https://beer-garden.io",
     author="The Beergarden Team",
     author_email=" ",
@@ -31,5 +31,6 @@ setup(
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 3.7",
     ],
 )

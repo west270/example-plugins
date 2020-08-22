@@ -1,10 +1,9 @@
 import os
-import sys
 
-from brewtils import command, get_connection_info, parameter, system, Plugin
+from brewtils import command, parameter, system, Plugin
 from brewtils.plugin import request_context
 
-__version__ = "1.0.0.dev0"
+__version__ = "3.0.0.dev0"
 
 
 @system
@@ -292,13 +291,14 @@ class DynamicClient(object):
 
 
 def main():
-    Plugin(
-        DynamicClient(),
+    plugin = Plugin(
         name="dynamic",
         version=__version__,
+        description="Plugin that repeats very specific stuff",
         max_instances=2,
-        **get_connection_info(sys.argv[1:])
-    ).run()
+    )
+    plugin.client = DynamicClient()
+    plugin.run()
 
 
 if __name__ == "__main__":

@@ -16,7 +16,7 @@ def find_version(version_file):
 setup(
     name="echo-sleeper",
     version=find_version("echo_sleeper/__main__.py"),
-    description="A plugin that's annoying AND lazy.",
+    description="A plugin that's annoying AND lazy",
     url="https://beer-garden.io",
     author="The Beergarden Team",
     author_email=" ",
@@ -31,5 +31,6 @@ setup(
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 3.7",
     ],
 )

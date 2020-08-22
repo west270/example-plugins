@@ -1,29 +1,33 @@
-import sys
+import logging
 import time
 
-from brewtils import get_connection_info, parameter, system, Plugin
+from brewtils import parameter, system, Plugin
 
-__version__ = "1.0.0.dev0"
+__version__ = "3.0.0.dev0"
 
 
 @system
 class SleeperClient:
+    def __init__(self):
+        self._logger = logging.getLogger("sleeper")
+
     @parameter(
         key="amount", type="Float", description="Amount of time to sleep (in seconds)"
     )
     def sleep(self, amount):
-        print("About to sleep for %d" % amount)
+        self._logger.info("About to sleep for %d seconds" % amount)
+
         time.sleep(amount)
-        print("I'm Awake!")
+
+        self._logger.info("I'm Awake!")
 
 
 def main():
-    Plugin(
-        SleeperClient(),
-        name="sleeper",
-        version=__version__,
-        **get_connection_info(sys.argv[1:])
-    ).run()
+    plugin = Plugin(
+        name="sleeper", version=__version__, description="A really lazy plugin",
+    )
+    plugin.client = SleeperClient()
+    plugin.run()
 
 
 if __name__ == "__main__":

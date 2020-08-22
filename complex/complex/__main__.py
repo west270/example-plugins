@@ -1,28 +1,34 @@
 from __future__ import absolute_import
 
 import sys
+from argparse import ArgumentParser
 
-from brewtils import get_argument_parser, get_connection_info, Plugin
+from brewtils import Plugin
+
 from .client import ComplexClient
 
-__version__ = "1.0.0.dev0"
+__version__ = "3.0.0.dev0"
 
 
 def main():
-    parser = get_argument_parser()
+    parser = ArgumentParser()
     parser.add_argument("instance_name")
     parser.add_argument("host")
     parser.add_argument("port")
-    config = parser.parse_args(sys.argv[1:])
 
-    Plugin(
-        ComplexClient(config.host, config.port),
+    # Use parse_known_args to work with brewtils CLI arguments
+    parsed, _ = parser.parse_known_args(sys.argv[1:])
+    config = vars(parsed)
+
+    plugin = Plugin(
         name="complex",
         version=__version__,
-        instance_name=config.instance_name,
+        description="Plugin that shows all the cool things Beergarden can do",
         max_instances=2,
-        **get_connection_info(cli_args=sys.argv[1:], argument_parser=parser)
-    ).run()
+        instance_name=config["instance_name"],
+    )
+    plugin.client = ComplexClient(config["host"], config["port"])
+    plugin.run()
 
 
 if __name__ == "__main__":

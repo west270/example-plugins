@@ -1,8 +1,6 @@
-import sys
+from brewtils import command, parameter, system, Plugin
 
-from brewtils import command, get_connection_info, parameter, system, Plugin
-
-__version__ = "1.0.0.dev0"
+__version__ = "3.0.0.dev0"
 
 
 @system
@@ -119,12 +117,13 @@ class CustomDisplayClient(object):
 
 
 def main():
-    Plugin(
-        CustomDisplayClient(),
+    plugin = Plugin(
         name="custom-display",
         version=__version__,
-        **get_connection_info(sys.argv[1:])
-    ).run()
+        description="Plugin that likes to play pretend",
+    )
+    plugin.client = CustomDisplayClient()
+    plugin.run()
 
 
 if __name__ == "__main__":
