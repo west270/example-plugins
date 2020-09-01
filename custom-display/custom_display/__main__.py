@@ -1,3 +1,5 @@
+import textwrap
+
 from brewtils import command, parameter, system, Plugin
 
 __version__ = "3.0.0.dev0"
@@ -73,6 +75,19 @@ class CustomDisplayClient(object):
     )
     def echo_message_dictionary(self, message):
         return message
+
+    @command(output_type="HTML")
+    def yellowify(self):
+        return textwrap.dedent(
+            """
+            <html>
+                <h1>Yellow!</h1>
+                <script>
+                    $("#requestTable").css("background-color", "yellow");
+                </script>
+            </html>
+            """
+        )
 
     @command(template="./resources/minimalist.html")
     def echo_minimalist(self, message):
