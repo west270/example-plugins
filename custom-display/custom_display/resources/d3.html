@@ -42,25 +42,23 @@
 </div>
 
 <script>
-    var xhr = new XMLHttpRequest();
-    xhr.open("POST", '/api/v1/requests?blocking=true', true);
-
-    xhr.onreadystatechange = function() {
-        if (this.readyState === XMLHttpRequest.DONE && this.status === 201) {
-            let request = JSON.parse(this.response);
-
+    $.post(
+        '/api/v1/requests?blocking=true',
+        {
+            namespace: "default",
+            system: "custom-display",
+            system_version: "3.0.0.dev0",
+            instance_name: "default",
+            command: "_d3",
+        },
+        (data, status) => {
             let script = document.createElement('script');
+            script.src = "/api/v1/requests/output/" + data.id;
             script.onload = function () {
                 d3.selectAll("input").style("color", "blue");
             };
-            script.src = "/api/v1/requests/output/" + request.id;
 
             document.head.appendChild(script);
         }
-    }
-
-    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    xhr.send(
-        "namespace=default&system=custom-display&system_version=3.0.0.dev0&command=_d3&instance_name=default"
     );
 </script>
