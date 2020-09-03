@@ -295,7 +295,6 @@ def main():
         name="dynamic",
         version=__version__,
         description="Plugin that repeats very specific stuff",
-        max_instances=2,
     )
     plugin.client = DynamicClient()
     plugin.run()

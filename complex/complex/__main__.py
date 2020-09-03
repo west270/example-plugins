@@ -23,7 +23,6 @@ def main():
         name="complex",
         version=__version__,
         description="Plugin that shows all the cool things Beergarden can do",
-        max_instances=2,
     )
     plugin.client = ComplexClient(config["host"], config["port"])
     plugin.run()
