@@ -1,3 +1,5 @@
+import textwrap
+
 from brewtils import command, parameter, system, Plugin
 
 __version__ = "3.0.0.dev0"
@@ -73,6 +75,28 @@ class CustomDisplayClient(object):
     )
     def echo_message_dictionary(self, message):
         return message
+
+    @command(output_type="HTML")
+    @parameter(key="color", type=str, default="yellow")
+    def script_output(self, color):
+        """Demonstrates executable javascript in output
+
+        This will only work if the "execute_javascript" flag is set in the beergarden
+        application configuration.
+
+        Also, this is a little over-engineered but it makes the indentation look pretty
+        and removes the leading newline.
+        """
+        return textwrap.dedent(
+            """
+            <html>
+                <h1>{0}!</h1>
+                <script>
+                    $("#requestTable").css("background-color", "{0}");
+                </script>
+            </html>
+            """.format(color)
+        )[1:]
 
     @command(template="./resources/minimalist.html")
     def echo_minimalist(self, message):
