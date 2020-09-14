@@ -1,3 +1,5 @@
+import json
+
 from brewtils import command, parameter, system, Plugin
 
 __version__ = "3.0.0.dev0"
@@ -49,6 +51,22 @@ class EchoClient(object):
         """Echos with HTML output_type"""
         return message
 
+    @command(output_type=["STRING", "JSON", "HTML"])
+    @parameter(
+        key="message",
+        type="String",
+        description="The Message to be Echoed",
+        optional=True,
+        default="Hello, World",
+    )
+    def say_chameleon(self, message):
+        """Echos with variable output_type"""
+        if self._current_request.output_type == "JSON":
+            return json.dumps({"message": message})
+        elif self._current_request.output_type == "HTML":
+            return "<h1>" + message + "</h1>"
+        else:
+            return message
 
 def main():
     plugin = Plugin(
