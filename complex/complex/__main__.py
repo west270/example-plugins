@@ -12,7 +12,6 @@ __version__ = "3.0.0.dev0"
 
 def main():
     parser = ArgumentParser()
-    parser.add_argument("instance_name")
     parser.add_argument("host")
     parser.add_argument("port")
 
@@ -24,8 +23,6 @@ def main():
         name="complex",
         version=__version__,
         description="Plugin that shows all the cool things Beergarden can do",
-        max_instances=2,
-        instance_name=config["instance_name"],
     )
     plugin.client = ComplexClient(config["host"], config["port"])
     plugin.run()
