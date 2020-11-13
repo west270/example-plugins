@@ -20,7 +20,3 @@ deploy:
     script: bash -c "make login && make release TAG=latest"
     on:
       branch: master
-  - provider: script
-    script: bash -c "make login && make release TAG=v3"
-    on:
-      branch: v3
