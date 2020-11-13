@@ -14,14 +14,14 @@ def find_version(version_file):
 
 
 setup(
-    name="concurrent-sleeper",
-    version=find_version("concurrent_sleeper/__main__.py"),
-    description="An efficiently lazy plugin",
+    name="sleeper-solo",
+    version=find_version("sleeper_solo/__main__.py"),
+    description="A really lazy plugin",
     url="https://beer-garden.io",
     author="The Beergarden Team",
     author_email=" ",
     license="MIT",
-    packages=["concurrent_sleeper"],
+    packages=["sleeper_solo"],
     install_requires=["brewtils"],
     classifiers=[
         "Intended Audience :: Developers",
