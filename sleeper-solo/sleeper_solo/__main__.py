@@ -27,6 +27,7 @@ def main():
         name="sleeper-solo",
         version=__version__,
         description="A singularly lazy plugin",
+        max_concurrent=1,
     )
     plugin.client = SleeperClient()
     plugin.run()
