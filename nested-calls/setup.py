@@ -15,7 +15,7 @@ def find_version(version_file):
 
 setup(
     name="nested-calls",
-    version=find_version("nested-calls/__main__.py"),
+    version=find_version("nested_calls/__main__.py"),
     description="A plugin that's calls commands in itself as System Clients.",
     url="https://beer-garden.io",
     author="The Beergarden Team",
