@@ -16,7 +16,7 @@ def find_version(version_file):
 setup(
     name="parent",
     version=find_version("parent/__main__.py"),
-    description="This plugin issues commands to a child on a seperate namespace",
+    description="Issues commands to a different namespace",
     url="https://beer-garden.io",
     author="The Beergarden Team",
     author_email=" ",
@@ -30,5 +30,7 @@ setup(
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
     ],
 )

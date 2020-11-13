@@ -1,6 +1,6 @@
-from brewtils import Plugin, command, system, SystemClient
+from brewtils import Plugin, SystemClient, command, system
 
-__version__ = "1.0.0.dev0"
+__version__ = "3.0.0.dev0"
 
 
 @system

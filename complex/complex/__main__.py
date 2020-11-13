@@ -4,13 +4,18 @@ import sys
 from argparse import ArgumentParser
 
 from brewtils import Plugin
-
 from .client import ComplexClient
 
 __version__ = "3.0.0.dev0"
 
 
 def main():
+    plugin = Plugin(
+        name="complex",
+        version=__version__,
+        description="Plugin that shows all the cool things Beergarden can do",
+    )
+
     parser = ArgumentParser()
     parser.add_argument("host")
     parser.add_argument("port")
@@ -19,11 +24,6 @@ def main():
     parsed, _ = parser.parse_known_args(sys.argv[1:])
     config = vars(parsed)
 
-    plugin = Plugin(
-        name="complex",
-        version=__version__,
-        description="Plugin that shows all the cool things Beergarden can do",
-    )
     plugin.client = ComplexClient(config["host"], config["port"])
     plugin.run()
 

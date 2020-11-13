@@ -1,19 +1,14 @@
-import json
-import sys
+from brewtils import Plugin, SystemClient, command, system
 
-from brewtils import command, get_connection_info, system, Plugin, SystemClient
-
-__version__ = "1.0.0.dev0"
+__version__ = "3.0.0.dev0"
 
 
 @system
 class ParentClient:
     """A Client communicates with a child in a seperate namespace"""
 
-    def __init__(self, params):
-        self.child_client = SystemClient(
-            system_name="child", system_namespace="CHILD_NAMESPACE", **params
-        )
+    def __init__(self):
+        self.child_client = SystemClient(system_name="child", system_namespace="child")
 
     @command()
     def who_am_i(self):
@@ -21,19 +16,17 @@ class ParentClient:
 
     @command()
     def child_who_am_i(self):
-        response = self.child_client.who_am_i()
-
-        return response.output
+        return self.child_client.who_am_i().output
 
 
 def main():
-    connection_params = get_connection_info(sys.argv[1:])
-    Plugin(
-        ParentClient(connection_params),
+    plugin = Plugin(
         name="parent",
         version=__version__,
-        **connection_params
-    ).run()
+        description="Issues commands to a different namespace",
+    )
+    plugin.client = ParentClient()
+    plugin.run()
 
 
 if __name__ == "__main__":
