@@ -21,6 +21,7 @@ setup(
     author="The Beergarden Team",
     author_email=" ",
     license="MIT",
+    packages=["parent"],
     install_requires=["brewtils"],
     classifiers=[
         "Intended Audience :: Developers",
