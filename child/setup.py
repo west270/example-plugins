@@ -14,7 +14,7 @@ def find_version(version_file):
 
 
 setup(
-    name="parent",
+    name="child",
     version=find_version("child/__main__.py"),
     description="This plugin receives commands to a parent",
     url="https://beer-garden.io",
