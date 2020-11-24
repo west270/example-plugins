@@ -16,7 +16,7 @@ class DeployClient(object):
         optional=False,
     )
     def deploy(self, my_file):
-        """Deploys the given file."""
+        """Deploys the given file to the plugin directory."""
         z = ZipFile(my_file)
         z.extractall('../')
         return "Done!"
@@ -29,7 +29,10 @@ class DeployClient(object):
         default="{event/src_path}"
     )
     def monitor(self, my_path):
-        """Deploys the file found at the given path."""
+        """
+        Deploys the file found at the given path to the plugin directory.
+            For best results, schedule a job using the 'file' trigger with this as its request.
+        """
         z = ZipFile(my_path)
         z.extractall('../')
         return "Done!"
@@ -37,7 +40,7 @@ class DeployClient(object):
     @parameter(
         key="my_file",
         type="Base64",
-        description="The zipped plugin to deploy",
+        description="Any file",
         optional=False,
     )
     def echo(self, my_file):
