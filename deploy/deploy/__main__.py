@@ -15,26 +15,38 @@ class DeployClient(object):
         description="The zipped plugin to deploy",
         optional=False,
     )
-    def deploy(self, my_file):
-        """Deploys the given file to the plugin directory."""
+    @parameter(
+        key="output_path",
+        type="String",
+        description="Where to extract the input file to. Default is the plugin directory.",
+        optional=False,
+        default="../"
+    )
+    def deploy(self, my_file, output_path):
+        """Deploys the given file to the given directory."""
         z = ZipFile(my_file)
-        z.extractall('../')
+        z.extractall(output_path)
         return "Done!"
 
     @parameter(
-        key="my_path",
+        key="input_path",
         type="String",
-        description="The full file path for a file to deploy",
+        description="The input file path. Default uses FileTrigger parameter injection.",
         optional=False,
         default="{event/src_path}"
     )
-    def monitor(self, my_path):
-        """
-        Deploys the file found at the given path to the plugin directory.
-            For best results, schedule a job using the 'file' trigger with this as its request.
-        """
-        z = ZipFile(my_path)
-        z.extractall('../')
+    @parameter(
+        key="output_path",
+        type="String",
+        description="Where to extract the input file to. Default is the plugin directory.",
+        optional=False,
+        default="../"
+    )
+    def monitor(self, input_path, output_path):
+        """ Deploys the file found at the given path to the given directory.
+            For best results, schedule a job using the 'file' trigger with this as its request."""
+        z = ZipFile(input_path)
+        z.extractall(output_path)
         return "Done!"
 
     @parameter(
