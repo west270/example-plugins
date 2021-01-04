@@ -8,7 +8,8 @@ __version__ = "1.0.0.dev0"
 
 @system
 class DeployClient(object):
-    """Client that deploys other plugins"""
+    """Plugin that deploys other plugins"""
+
     @parameter(
         key="my_file",
         type="Base64",
@@ -65,12 +66,8 @@ class DeployClient(object):
 
 
 def main():
-    p = Plugin(
-        DeployClient(),
-        name="deploy",
-        version=__version__,
-        **get_connection_info(sys.argv[1:])
-    )
+    p = Plugin(name="deploy", version=__version__)
+    p.client = DeployClient()
     p.run()
 
 
