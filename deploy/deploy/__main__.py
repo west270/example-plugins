@@ -1,12 +1,10 @@
-import sys
 from zipfile import ZipFile
 
-from brewtils import command, get_connection_info, parameter, system, Plugin
+from brewtils import parameter, Plugin
 
 __version__ = "1.0.0.dev0"
 
 
-@system
 class DeployClient(object):
     """Plugin that deploys other plugins"""
 

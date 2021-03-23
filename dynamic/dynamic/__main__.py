@@ -1,12 +1,11 @@
 import os
 
-from brewtils import command, parameter, system, Plugin
+from brewtils import command, parameter, Plugin
 from brewtils.plugin import request_context
 
 __version__ = "3.0.0.dev0"
 
 
-@system
 class DynamicClient(object):
     """Plugin that repeats very specific stuff."""
 

@@ -1,11 +1,10 @@
 from concurrent.futures import wait
 
-from brewtils import parameter, system, SystemClient
+from brewtils import parameter, SystemClient
 
 DEFAULT_MESSAGE = "Happy World!"
 
 
-@system
 class EchoSleeperClient:
     """A client that delegates to the Echo and Sleeper plugins"""
 

@@ -1,12 +1,11 @@
 import logging
 import time
 
-from brewtils import parameter, system, Plugin
+from brewtils import parameter, Plugin
 
 __version__ = "3.0.0.dev0"
 
 
-@system
 class SleeperClient:
     def __init__(self):
         self._logger = logging.getLogger("sleeper")

@@ -1,6 +1,6 @@
 import json
 
-from brewtils import command, system, Plugin
+from brewtils import command, Plugin
 
 __version__ = "3.0.0.dev0"
 
@@ -11,7 +11,6 @@ class FooMessage(object):
         self.more = more
 
 
-@system
 class ErrorClient:
     """A Client that always errors. There is no hope."""
 

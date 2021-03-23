@@ -1,11 +1,10 @@
 import textwrap
 
-from brewtils import command, parameter, system, Plugin
+from brewtils import command, parameter, Plugin
 
 __version__ = "3.0.0.dev0"
 
 
-@system
 class CustomDisplayClient(object):
     @command(form=[{"key": "parameters.message", "readonly": True}])
     @parameter(key="message", type="String", optional=False, nullable=False)
