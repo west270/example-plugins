@@ -1,81 +1,80 @@
+from brewtils import parameter
 from brewtils.models import Parameter
 
 
+@parameter(
+    key="my_foo",
+    display_name="Foo",
+    optional=False,
+    type="String",
+    description="Foo With Defaults.",
+    default="defaultFooFromModel",
+)
+@parameter(
+    key="my_bar",
+    display_name="Bar",
+    optional=False,
+    type="String",
+    description="Bar With Defaults.",
+    default="defaultBarFromModel",
+)
 class MyModelWithDefaults(object):
-    my_foo = Parameter(
-        key="my_foo",
-        multi=False,
-        display_name="Foo",
-        optional=False,
-        type="String",
-        description="Foo With Defaults.",
-        default="defaultFooFromModel",
-    )
-    my_bar = Parameter(
-        key="my_bar",
-        multi=False,
-        display_name="Bar",
-        optional=False,
-        type="String",
-        description="Bar With Defaults.",
-        default="defaultBarFromModel",
-    )
-
-    parameters = [my_foo, my_bar]
+    pass
 
 
+@parameter(
+    key="my_choices_string",
+    type="String",
+    display_name="Choices!",
+    optional=False,
+    description="This has some choices",
+    choices=["a", "b", "c"],
+)
+@parameter(
+    key="my_list_of_strings",
+    multi=True,
+    display_name="My List of Strings",
+    optional=False,
+    type="String",
+    description="Just testing a list of Strings.",
+)
 class MyListModel(object):
-    my_choices_string = Parameter(
-        key="my_choices_string",
-        type="String",
-        multi=False,
-        display_name="Choices!",
-        optional=False,
-        description="This has some choices",
-        choices=["a", "b", "c"],
-    )
-    my_list_of_strings = Parameter(
-        key="my_list_of_strings",
-        multi=True,
-        display_name="My List of Strings",
-        optional=False,
-        type="String",
-        description="Just testing a list of Strings.",
-    )
-
-    parameters = [my_choices_string, my_list_of_strings]
+    pass
 
 
+@parameter(
+    key="my_nested_string",
+    display_name="My Nested String",
+    optional=False,
+    type="String",
+    description="Just Testing a String",
+)
+@parameter(
+    key="my_nested_int",
+    display_name="My Nested Int",
+    optional=False,
+    type="Integer",
+    description="Just Testing an Int",
+)
 class MyNestedModel(object):
-    my_nested_string = Parameter(
-        key="my_nested_string",
-        multi=False,
-        display_name="My Nested String",
-        optional=False,
-        type="String",
-        description="Just Testing a String",
-    )
-    my_nested_int = Parameter(
-        key="my_nested_int",
-        multi=False,
-        display_name="My Nested Int",
-        optional=False,
-        type="Integer",
-        description="Just Testing an Int",
-    )
-
-    parameters = [my_nested_string, my_nested_int]
+    pass
 
 
 class MyModel(object):
-    my_string = Parameter(
-        key="my_string",
-        multi=False,
-        display_name="My String",
-        optional=False,
-        type="String",
-        description="Just Testing a String",
-    )
+    """Another way to declare model parameters
+
+    This demonstrates the alternate method of declaring model parameters. Parameter
+    objects (or dictionaries of Parameter kwargs) can be added to a ``parameters`` class
+    attribute.
+
+    """
+    my_string = {
+        "key": "my_string",
+        "display_name": "My String",
+        "description": "Just Testing a String",
+        "type": "String",
+        "optional": False,
+    }
     my_string_with_choices = Parameter(
         key="my_string_with_choices",
         multi=False,
@@ -93,14 +92,13 @@ class MyModel(object):
         type="Integer",
         description="Just Testing an Int",
     )
-    my_float = Parameter(
-        key="my_float",
-        multi=False,
-        display_name="My Float",
-        optional=False,
-        type="Float",
-        description="Just Testing a Float",
-    )
+    my_float = {
+        "key": "my_float",
+        "display_name": "My Float",
+        "description": "Just Testing a Float",
+        "type": "Float",
+        "optional": False,
+    }
     my_bool = Parameter(
         key="my_bool",
         multi=False,
@@ -130,9 +128,8 @@ class MyModel(object):
         multi=False,
         display_name="My Nested Model",
         optional=False,
-        type="Dictionary",
         description="Just Testing a Nested Model",
-        parameters=[MyNestedModel],
+        model=MyNestedModel,
     )
     my_list_of_strings = Parameter(
         key="my_list_of_strings",
@@ -144,7 +141,6 @@ class MyModel(object):
     )
     my_optional_string = Parameter(
         key="my_optional_string",
-        multi=False,
         display_name="My Optional",
         optional=True,
         type="String",
@@ -153,7 +149,6 @@ class MyModel(object):
     )
     my_nullable_string = Parameter(
         key="my_nullable_string",
-        multi=False,
         display_name="My Nullable String",
         optional=True,
         type="String",
@@ -167,7 +162,7 @@ class MyModel(object):
         optional=False,
         type="Dictionary",
         description="Just Testing a list of Models",
-        parameters=[MyListModel],
+        model=MyListModel,
     )
 
     parameters = [
