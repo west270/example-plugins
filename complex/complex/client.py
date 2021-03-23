@@ -19,6 +19,10 @@ class ComplexClient:
         self.port = port
 
     @command
+    def echo_request_id(self):
+        return self._current_request.id
+
+    @command
     def echo_host_port(self):
         return [self.host, self.port]
 
