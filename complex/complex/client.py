@@ -5,13 +5,13 @@ import logging
 import os
 import sys
 
-from brewtils.decorators import command, system, parameter
+from brewtils.decorators import client, command, parameter
 from .model import MyModel, MyNestedModel, MyListModel, MyModelWithDefaults
 
 
-@system
+@client
 class ComplexClient:
-    """Plugin that shows all the cool things beergarden can do"""
+    """Plugin that shows all the cool things Beergarden can do"""
 
     def __init__(self, host, port):
         self.logger = logging.getLogger(__name__)
