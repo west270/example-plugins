@@ -1,9 +1,8 @@
-from brewtils import Plugin, SystemClient, command, system
+from brewtils import Plugin, SystemClient, command
 
 __version__ = "3.0.0.dev0"
 
 
-@system
 class NestedCallClient:
     """A client that calls nested commands as System Clients"""
 

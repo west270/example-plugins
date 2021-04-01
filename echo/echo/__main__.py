@@ -1,9 +1,8 @@
-from brewtils import command, parameter, system, Plugin
+from brewtils import command, parameter, Plugin
 
 __version__ = "3.0.0.dev0"
 
 
-@system
 class EchoClient(object):
     """Client that echos things"""
 

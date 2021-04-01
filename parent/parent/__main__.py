@@ -1,11 +1,10 @@
-from brewtils import Plugin, SystemClient, command, system
+from brewtils import Plugin, SystemClient, command
 
 __version__ = "3.0.0.dev0"
 
 
-@system
 class ParentClient:
-    """A Client communicates with a child in a seperate namespace"""
+    """A Client communicates with a child in a separate namespace"""
 
     def __init__(self):
         self.child_client = SystemClient(system_name="child", system_namespace="child")

@@ -1,12 +1,11 @@
-from brewtils import Plugin, command, system
+from brewtils import Plugin, command
 
 __version__ = "3.0.0.dev0"
 
 
-@system
 class ChildClient:
 
-    @command()
+    @command
     def who_am_i(self):
         return "Child"
 
