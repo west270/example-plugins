@@ -1,8 +1,10 @@
-from brewtils import command, parameter, Plugin
+from brewtils import command, system, parameter, Plugin
 
 __version__ = "3.0.0.dev0"
 
-
+# Keeping the System decorator until for legacy testing
+# Can be removed once system decorator is fully deprecated
+@system
 class EchoClient(object):
     """Client that echos things"""
 
