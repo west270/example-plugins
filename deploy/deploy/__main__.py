@@ -1,66 +1,72 @@
-from zipfile import ZipFile
-
-from brewtils import parameter, Plugin
+from brewtils import Plugin, SystemClient, command, parameter, system
 
 __version__ = "1.0.0.dev0"
 
 
+@parameter(key="foo", type="String", optional=False)
+@parameter(key="bar", type="Bytes", optional=False)
+class Model(object):
+    pass
+
+
+@system
 class DeployClient(object):
     """Plugin that deploys other plugins"""
 
-    @parameter(
-        key="my_file",
-        type="Base64",
-        description="The zipped plugin to deploy",
-        optional=False,
-    )
-    @parameter(
-        key="output_path",
-        type="String",
-        description="Where to extract the input file to. Default is the plugin directory.",
-        optional=False,
-        default="../"
-    )
-    def deploy(self, my_file, output_path):
-        """Deploys the given file to the given directory."""
-        z = ZipFile(my_file)
-        z.extractall(output_path)
-        return "Done!"
+    # "Base" Commands
+    @parameter(key="the_base64", type="Base64")
+    def base64_command(self, the_base64):
+        return the_base64.read().decode("utf8")
 
-    @parameter(
-        key="input_path",
-        type="String",
-        description="The input file path. Default uses FileTrigger parameter injection.",
-        optional=False,
-        default="{event/src_path}"
-    )
-    @parameter(
-        key="output_path",
-        type="String",
-        description="Where to extract the input file to. Default is the plugin directory.",
-        optional=False,
-        default="../"
-    )
-    def monitor(self, input_path, output_path):
-        """ Deploys the file found at the given path to the given directory.
-            For best results, schedule a job using the 'file' trigger with this as its request."""
-        z = ZipFile(input_path)
-        z.extractall(output_path)
-        return "Done!"
+    @parameter(key="the_bytes", type="Bytes")
+    def bytes_command(self, the_bytes):
+        return the_bytes
 
-    @parameter(
-        key="my_file",
-        type="Base64",
-        description="Any file",
-        optional=False,
-    )
-    def echo(self, my_file):
-        """Echoes the contents of the given file."""
-        try:
-            return my_file.read().decode('utf-8')
-        except UnicodeError:
-            my_file.seek(0)
-            return my_file.read()
+    @parameter(key="the_bytes", type="Bytes", multi=True)
+    def bytes_multi_command(self, the_bytes):
+        return the_bytes
+
+    @parameter(key="bytes_model", model=Model)
+    def bytes_model_command(self, bytes_model):
+        return bytes_model
+
+    # Invoker commands
+    # Base64
+    @command
+    def base64_invoker_file(self):
+        with open("./binary", "rb") as f:
+            return SystemClient().base64_command(the_base64=f).output
+
+    # Bytes
+    @command
+    def bytes_invoker_literal(self):
+        return SystemClient().bytes_command(the_bytes=b'im a byte').output
+
+    @command
+    def bytes_invoker_file(self):
+        with open("./binary", "rb") as f:
+            data = f.read()
+
+        return SystemClient().bytes_command(the_bytes=data).output
+
+    @command
+    def bytes_multi_invoker_literal(self):
+        return SystemClient().bytes_multi_command(the_bytes=[b'abc', b'123']).output
+
+    @command
+    def bytes_model_invoker_literal(self):
+        return SystemClient().bytes_model_command(
+            bytes_model={"foo": "hi", "bar": b'im a byte'}
+        ).output
+
+    # Autoresolve
+    @parameter(key="the_bytes", type="Bytes", type_info={"autoresolve": False})
+    def bytes_no_resolve(self, the_bytes):
+        return SystemClient().bytes_command(the_bytes=the_bytes).output
+
+    @command
+    def bytes_no_resolve_invoker(self):
+        return SystemClient().bytes_no_resolve(the_bytes=b'im a byte').output
 
 
 def main():
