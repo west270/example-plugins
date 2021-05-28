@@ -382,10 +382,15 @@ class ComplexClient:
     @parameter(
         key="model",
         optional=False,
+        default={},
         description="A Model with a cool definition.",
         model=MyModelWithDefaults,
     )
     def echo_model_with_nested_defaults_no_main(self, model):
+        """
+        All the of the nested parameters have defaults here. Having the default={} lets
+        this be called with no parameters and the nested parameters will still work.
+        """
         for k, v in model.items():
             self.logger.info('{"%s" : %s}' % (k, v))
         return model
