@@ -34,7 +34,7 @@ class DeployClient(object):
     # Base64
     @command
     def base64_invoker_file(self):
-        with open("./binary", "rb") as f:
+        with open("./favicon.ico", "rb") as f:
             return SystemClient().base64_command(the_base64=f).output
 
     # Bytes
@@ -44,7 +44,7 @@ class DeployClient(object):
 
     @command
     def bytes_invoker_file(self):
-        with open("./binary", "rb") as f:
+        with open("./favicon.ico", "rb") as f:
             data = f.read()
 
         return SystemClient().bytes_command(the_bytes=data).output
