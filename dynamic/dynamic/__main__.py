@@ -34,6 +34,9 @@ class DynamicClient(object):
     CHOICES_FILE = os.getenv("CHOICES_FILE", "http://example.com/api/choices.json")
     CHOICES_URL = os.getenv("CHOICES_URL", "http://example.com/api")
 
+    # Demonstrate choices that aren't known until after some initial setup
+    DEFERRED_CHOICES = ["a", "b", "c"]
+
     @command
     def _get_attribute(self, attribute):
         return getattr(self, attribute)
@@ -92,6 +95,17 @@ class DynamicClient(object):
     )
     def say_specific_renamed(self, message):
         """Choices param is the renamed list: [{"value": "a", "text": "A"}, ...]"""
+        return message
+
+    @parameter(
+        key="message",
+        type="String",
+        description="Say something else",
+        optional=False,
+        choices=lambda: DynamicClient.DEFERRED_CHOICES,
+    )
+    def say_specific_deferred(self, message):
+        """Choices param comes from deferred choices"""
         return message
 
     @parameter(
@@ -295,6 +309,10 @@ def main():
         version=__version__,
         description="Plugin that repeats very specific stuff",
     )
+
+    # Change the deferred choices
+    DynamicClient.DEFERRED_CHOICES = ["x", "y", "z"]
+
     plugin.client = DynamicClient()
     plugin.run()
 
