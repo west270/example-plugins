@@ -1,5 +1,13 @@
 from brewtils import Plugin, SystemClient, command, parameter, system
 
+from . import resources
+
+try:
+    import importlib.resources as pkg_resources  # PY >= 3.7
+except ImportError:
+    import importlib_resources as pkg_resources  # PY < 3.7
+
+
 __version__ = "1.0.0.dev0"
 
 
@@ -16,7 +24,7 @@ class DeployClient(object):
     # "Base" Commands
     @parameter(key="the_base64", type="Base64")
     def base64_command(self, the_base64):
-        return the_base64.read().decode("utf8")
+        return the_base64
 
     @parameter(key="the_bytes", type="Bytes")
     def bytes_command(self, the_bytes):
@@ -34,7 +42,7 @@ class DeployClient(object):
     # Base64
     @command
     def base64_invoker_file(self):
-        with open("./favicon.ico", "rb") as f:
+        with pkg_resources.open_binary(resources, "favicon.ico") as f:
             return SystemClient().base64_command(the_base64=f).output
 
     # Bytes
@@ -44,10 +52,8 @@ class DeployClient(object):
 
     @command
     def bytes_invoker_file(self):
-        with open("./favicon.ico", "rb") as f:
-            data = f.read()
-
-        return SystemClient().bytes_command(the_bytes=data).output
+        with pkg_resources.open_binary(resources, "favicon.ico") as f:
+            return SystemClient().bytes_command(the_bytes=f).output
 
     @command
     def bytes_multi_invoker_literal(self):

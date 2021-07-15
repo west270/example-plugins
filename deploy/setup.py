@@ -22,7 +22,9 @@ setup(
     author_email=" ",
     license="MIT",
     packages=["deploy"],
+    include_package_data=True,
     install_requires=["brewtils"],
+    extras_require={':python_version<"3.7"': ["importlib_resources"]},
     classifiers=[
         "Intended Audience :: Developers",
         "License :: OSI Approved :: MIT License",
