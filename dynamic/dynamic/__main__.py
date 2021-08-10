@@ -75,6 +75,24 @@ class DynamicClient(object):
         key = request_context.current_request.instance_name
         return self.INSTANCE_CHOICES_DICTIONARY[key]
 
+    @parameter(key="filter_param", type="String", default="")
+    def days_filter(self, filter_param):
+        """Basic 'filter' - will return subset of days that contain the given string"""
+        days = [
+            "Sunday",
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+        ]
+
+        if len(filter_param) < 2:
+            return []
+
+        return [day for day in days if filter_param in day]
+
     @parameter(
         key="message",
         type="String",
@@ -301,6 +319,20 @@ class DynamicClient(object):
     def say_specific_dictionary_with_instance_name_key(self, message):
         """Uses the instance name as the key_reference for the choices dictionary"""
         return message
+
+    @parameter(
+        key="day",
+        type="String",
+        choices={
+            "type": "command",
+            "display": "typeahead",
+            "strict": True,
+            "value": "days_filter(filter_param=${day})",
+        },
+    )
+    def say_day(self, day):
+        """Demonstrates self-referring choices"""
+        return day
 
 
 def main():
