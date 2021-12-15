@@ -26,6 +26,13 @@ class DeployClient(object):
     def base64_command(self, the_base64):
         return the_base64
 
+    @parameter(key="the_base64", type="Base64", optional=True, nullable=True)
+    def base64_command_optional(self, the_base64):
+        if the_base64:
+            return the_base64
+        else:
+            return "no file selected"
+
     @parameter(key="the_bytes", type="Bytes")
     def bytes_command(self, the_bytes):
         return the_bytes
