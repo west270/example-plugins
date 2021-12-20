@@ -27,7 +27,7 @@ class DeployClient(object):
         return the_base64
 
     @parameter(key="the_base64", type="Base64", optional=True, nullable=True)
-    def base64_command_optional(self, the_base64):
+    def base64_command_optional(self, the_base64=None):
         if the_base64:
             return the_base64
         else:
