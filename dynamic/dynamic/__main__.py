@@ -1,6 +1,6 @@
 import os
 
-from brewtils import command, parameter, Plugin
+from brewtils import Plugin, command, parameter
 from brewtils.plugin import request_context
 
 __version__ = "3.0.0.dev0"
@@ -189,6 +189,17 @@ class DynamicClient(object):
         choices={"type": "command", "value": "get_choices"},
     )
     def say_specific_from_command(self, message):
+        """Uses the 'get_choices' command to populate choices"""
+        return message
+    
+    @parameter(
+        key="message",
+        type="String",
+        description="Say what we want",
+        optional=False,
+        choices={"type": "command", "value": "get_choices", "display": "typeahead", "strict": False},
+    )
+    def say_specific_from_command_nonstrict_typeahead(self, message):
         """Uses the 'get_choices' command to populate choices"""
         return message
 
