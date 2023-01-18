@@ -76,17 +76,27 @@ class DynamicClient(object):
         return self.INSTANCE_CHOICES_DICTIONARY[key]
 
     @parameter(key="filter_param", type="String", default="")
-    def days_filter(self, filter_param):
+    def days_filter(self, filter_param, valid_days="all"):
         """Basic 'filter' - will return subset of days that contain the given string"""
-        days = [
-            "Sunday",
+        weekdays = [
             "Monday",
             "Tuesday",
             "Wednesday",
             "Thursday",
             "Friday",
-            "Saturday",
         ]
+
+        weekend = [
+            "Saturday",
+            "Sunday",
+        ]
+
+        if valid_days == "weekday":
+            days = weekdays
+        elif valid_days == "weekend":
+            days = weekend
+        else:
+            days = weekdays + weekend
 
         if len(filter_param) < 2:
             return []
@@ -191,13 +201,18 @@ class DynamicClient(object):
     def say_specific_from_command(self, message):
         """Uses the 'get_choices' command to populate choices"""
         return message
-    
+
     @parameter(
         key="message",
         type="String",
         description="Say what we want",
         optional=False,
-        choices={"type": "command", "value": "get_choices", "display": "typeahead", "strict": False},
+        choices={
+            "type": "command",
+            "value": "get_choices",
+            "display": "typeahead",
+            "strict": False,
+        },
     )
     def say_specific_from_command_nonstrict_typeahead(self, message):
         """Uses the 'get_choices' command to populate choices"""
@@ -343,6 +358,27 @@ class DynamicClient(object):
     )
     def say_day(self, day):
         """Demonstrates self-referring choices"""
+        return day
+
+    @parameter(
+        key="valid_days",
+        type="String",
+        choices=["all", "weekday", "weekend"],
+        optional=False,
+        default="all",
+    )
+    @parameter(
+        key="day",
+        type="String",
+        choices={
+            "type": "command",
+            "display": "typeahead",
+            "strict": True,
+            "value": "days_filter(filter_param=${day}, valid_days=${valid_days})",
+        },
+    )
+    def say_day_with_valid_days_choice(self, day, valid_days):
+        """Demonstrates typeahead using input from other fields"""
         return day
 
 
