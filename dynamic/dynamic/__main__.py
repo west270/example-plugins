@@ -344,6 +344,49 @@ class DynamicClient(object):
     def say_day(self, day):
         """Demonstrates self-referring choices"""
         return day
+    
+    
+    @parameter(key="the_string", type="String")
+    @parameter(key="the_letter", type="String", choices=["a", "b", "c"])
+    @command(command_type="INFO", output_type="STRING")
+    def multiply_some(self, the_string, the_letter):
+        letters = list(the_string)
+        if len(letters) == 0:
+            return []
+        letter = the_letter[0]
+        the_results = []
+
+        for i in range(1, 4):
+            the_result = []
+            for this_letter in letters:
+                if this_letter == letter:
+                    the_result += "".join([letter] * i)
+                else:
+                    the_result += this_letter
+            the_results.append("".join(the_result))
+        return list(set(the_results))
+    
+    @parameter(
+        key="multiply",
+        type="String",
+        choices=['a', 'b', 'c'],
+        default='a',
+        is_kwarg=True
+    )
+    @parameter(
+        key="my_param",
+        type="String",
+        description="Multiply some",
+        optional=False,
+        choices={
+            "type": "command",
+            "display": "typeahead",
+            "strict": False,
+            "value": "multiply_some(the_string=${my_param}, the_letter=${multiply})"
+        }
+    )
+    def self_referring_complicated(self, my_param, **_):
+        return my_param
 
 
 def main():
