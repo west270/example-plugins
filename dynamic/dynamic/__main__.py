@@ -6,6 +6,10 @@ from brewtils.plugin import request_context
 __version__ = "3.0.0.dev0"
 
 
+BUZZWORDS = ["cloud", "mission", "synergy", "docker", "kubernetes"]
+WORK_ROLES = ["Software Engineer", "Manager", "Other"]
+
+
 class DynamicClient(object):
     """Plugin that repeats very specific stuff."""
 
@@ -359,8 +363,7 @@ class DynamicClient(object):
     def say_day(self, day):
         """Demonstrates self-referring choices"""
         return day
-    
-    
+
     @parameter(key="the_string", type="String")
     @parameter(key="the_letter", type="String", choices=["a", "b", "c"])
     @command(command_type="INFO", output_type="STRING")
@@ -380,13 +383,13 @@ class DynamicClient(object):
                     the_result += this_letter
             the_results.append("".join(the_result))
         return list(set(the_results))
-    
+
     @parameter(
         key="multiply",
         type="String",
-        choices=['a', 'b', 'c'],
-        default='a',
-        is_kwarg=True
+        choices=["a", "b", "c"],
+        default="a",
+        is_kwarg=True,
     )
     @parameter(
         key="my_param",
@@ -397,8 +400,8 @@ class DynamicClient(object):
             "type": "command",
             "display": "typeahead",
             "strict": False,
-            "value": "multiply_some(the_string=${my_param}, the_letter=${multiply})"
-        }
+            "value": "multiply_some(the_string=${my_param}, the_letter=${multiply})",
+        },
     )
     def self_referring_complicated(self, my_param, **_):
         return my_param
@@ -423,6 +426,94 @@ class DynamicClient(object):
     def say_day_with_valid_days_choice(self, day, valid_days):
         """Demonstrates typeahead using input from other fields"""
         return day
+
+    @command(output_type="JSON")
+    @parameter(
+        key="employee_writeup",
+        type="String",
+        description="The employee's evaluation write-up",
+        optional=False,
+        maximum=500,
+    )
+    @parameter(
+        key="additional_buzzwords",
+        type="String",
+        description=(
+            "Additional buzzwords to consider when evaluating the employee_writeup. "
+            f"Default buzzwords are: {BUZZWORDS}"
+        ),
+        nullable=True,
+        optional=True,
+    )
+    @parameter(
+        key="work_role",
+        type="String",
+        description="The employee's work role or primary function",
+        choices=WORK_ROLES,
+        optional=True,
+        default="Other",
+    )
+    @parameter(
+        key="bonus_word",
+        type="String",
+        description="Word worth double points!",
+        optional=True,
+        default="None",
+        choices={
+            "type": "command",
+            "display": "select",
+            "value": "get_bonus_suggestions(employee_role=${work_role})",
+        },
+    )
+    def evaluate(
+        self,
+        employee_writeup,
+        additional_buzzwords=None,
+        work_role=None,
+        bonus_word=None,
+    ):
+        """Determine employee performance rating"""
+        buzzword_count = 0
+        buzzword_target = 10
+        rating = None
+
+        if additional_buzzwords:
+            buzzwords = BUZZWORDS + additional_buzzwords.split(",")
+        else:
+            buzzwords = BUZZWORDS
+
+        for buzzword in buzzwords:
+            multiplication_factor = 2 if buzzword == bonus_word else 1
+            buzzword_count += (
+                employee_writeup.lower().count(buzzword) * multiplication_factor
+            )
+
+        if buzzword_count >= buzzword_target:
+            rating = "👍"
+        elif buzzword_count < buzzword_target:
+            rating = "👎"
+
+        return {
+            "buzzword_target": buzzword_target,
+            "buzzword_count": buzzword_count,
+            "rating": rating,
+        }
+
+    @command(hidden=True)
+    @parameter(
+        key="employee_role",
+        type="String",
+        description="The employee's work role or primary function",
+        choices=WORK_ROLES,
+        optional=False,
+    )
+    def get_bonus_suggestions(self, employee_role):
+        if employee_role == "Software Engineer":
+            return ["None", "docker", "cloud", "kubernetes"]
+        elif employee_role == "Manager":
+            return ["None", "synergy", "mission", "value"]
+        else:
+            return ["None"]
 
 
 def main():
